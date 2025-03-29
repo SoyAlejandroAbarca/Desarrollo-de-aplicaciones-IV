@@ -1,0 +1,99 @@
+CODIGO ACTIVIDAD 2 - PROGRAMA 2 - BANCO MEXICANO 
+
+import Foundation
+
+// Variable global para almacenar el saldo
+var saldo: Double = 0.0
+
+// Función para realizar depósitos
+func realizarDeposito() {
+    var continuarDeposito = true
+
+    while continuarDeposito {
+        print("Ingrese la cantidad a depositar: ", terminator: "")
+        if let cantidad = readLine(), let cantidadDouble = Double(cantidad), cantidadDouble > 0 {
+            saldo += cantidadDouble
+            print("¡Depósito realizado exitosamente! Saldo actual: \(saldo)")
+        } else {
+            print("Por favor, ingrese una cantidad válida.")
+            continue
+        }
+
+        print("¿Desea realizar otro depósito? (Sí/No): ", terminator: "")
+        if let respuesta = readLine(), respuesta.lowercased() == "no" {
+            continuarDeposito = false
+        }
+    }
+}
+
+// Función para realizar retiros
+func realizarRetiro() {
+    if saldo == 0 {
+        print("No cuenta con saldo en su cuenta.")
+        return
+    }
+
+    var continuarRetiro = true
+
+    while continuarRetiro {
+        print("Ingrese la cantidad a retirar: ", terminator: "")
+        if let cantidad = readLine(), let cantidadDouble = Double(cantidad), cantidadDouble > 0 {
+            if cantidadDouble <= saldo {
+                saldo -= cantidadDouble
+                print("Retiro realizado exitosamente. Saldo actual: \(saldo)")
+            } else {
+                print("No tiene suficiente saldo para realizar este retiro.")
+            }
+        } else {
+            print("Por favor, ingrese una cantidad válida.")
+            continue
+        }
+
+        print("¿Desea realizar otro retiro? (Sí/No): ", terminator: "")
+        if let respuesta = readLine(), respuesta.lowercased() == "no" {
+            continuarRetiro = false
+        }
+    }
+}
+
+// Función para consultar el saldo
+func consultarSaldo() {
+    print("Su saldo actual es: \(saldo)")
+}
+
+// Función para el menú principal
+func mostrarMenu() {
+    var continuarOperaciones = true
+
+    while continuarOperaciones {
+        print("""
+              ****BIENVENIDO AL BANCO MEXICANO****
+              
+            1. Depósito
+            2. Retiro
+            3. Saldo
+            4. Salir
+            """)
+        print("\n")
+        print("Elija una opción: ", terminator: "")
+
+        if let opcion = readLine() {
+            switch opcion {
+            case "1":
+                realizarDeposito()
+            case "2":
+                realizarRetiro()
+            case "3":
+                consultarSaldo()
+            case "4":
+                continuarOperaciones = false
+                print("Cerrando sesión de cuenta, vuelva pronto... Gracias por usar el sistema!!!")
+            default:
+                print("Opción no válida. Intente nuevamente.")
+            }
+        }
+    }
+}
+
+// Iniciar el programa
+mostrarMenu()
